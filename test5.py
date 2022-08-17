@@ -1093,6 +1093,44 @@ def removeLeaves(root):
     for child in root.child:
         removeLeaves(child)
 TnS = O(n) O(1)
+
+
+
+
+def getTail(root):
+    while len(root.child) == 1:
+        root = root.child[0]
+    
+    return root
+
+
+def flatTree(root):
+    for child in root.child:
+        flatTree(child)
+
+    while len(root.child) > 1:
+        last_child = root.child.pop()
+        second_last = root.child[-1]
+        second_last_tail = getTail(second_last)
+        second_last_tail.child.append(last_child)
+TnS = O(n^2) O(1)
+
+
+
+
+
+def flatTree(root):
+    if len(root.child) == 0:
+        return root
+
+    last_node = flatTree(root.child[-1])
+    while len(root.child) > 1:
+        last_child = root.child.pop()
+        second_last = root.child[-1]
+        second_last_tail = flatTree(second_last)
+        second_last_tail.child.append(last_child)
+    return last_node
+TnS = O(n) O(1)
 """
 
 

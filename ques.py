@@ -4,32 +4,38 @@ class Node:
         self.child = []
 
 
-def removeLeaves(root):
-    if root is None: return None
-    
-    for i in range(len(root.child) - 1, -1, -1):
-        child = root.child[i]
-        if len(child.child) == 0:
-            root.child.pop(i)
-    
-    for child in root.child:
-        removeLeaves(child)
-        
-    
+def getTail(root):
+    while len(root.child) == 1:
+        root = root.child[0]
+
+    return root
 
 
-def levelOrder(root): 
+def flatTree(root):
+    if len(root.child) == 0:
+        return root
+
+    last_node = flatTree(root.child[-1])
+    while len(root.child) > 1:
+        last_child = root.child.pop()
+        second_last = root.child[-1]
+        second_last_tail = flatTree(second_last)
+        second_last_tail.child.append(last_child)
+    return last_node
+
+
+def levelOrder(root):
     queue = [root]
-    while len(queue) != 0: 
+    while len(queue) != 0:
 
         for _ in range(len(queue)):
             root = queue.pop(0)
             print(root.data, end=" ")
             for child in root.child:
                 queue.append(child)
-        print()  
-    
-    
+        print()
+
+
 def constructTree(arr):
     root = None
     stack = []
@@ -43,9 +49,8 @@ def constructTree(arr):
             else:
                 root = t
             stack.append(t)
-    removeLeaves(root) 
-    levelOrder(root)   
-
+    flatTree(root)
+    levelOrder(root)
 
 
 arr = [10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80,

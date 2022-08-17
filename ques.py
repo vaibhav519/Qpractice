@@ -6,12 +6,16 @@ class Node:
 
 def removeLeaves(root):
     if root is None: return None
-
+    
+    for i in range(len(root.child) - 1, -1, -1):
+        child = root.child[i]
+        if len(child.child) == 0:
+            root.child.pop(i)
+    
     for child in root.child:
-        if child.child is None:
-            root.child.pop(child)
-
-    removeLeaves(child)
+        removeLeaves(child)
+        
+    
 
 
 def levelOrder(root): 

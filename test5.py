@@ -1059,6 +1059,40 @@ def printMirror(root):
     for child in root.child:
         printMirror(child)
 TnS = o(n^2) O(1)
+
+
+
+
+
+def removeLeaves(root):
+    if root is None: return None
+    queue = [root]
+    while len(queue) != 0: 
+
+        for _ in range(len(queue)):
+            root = queue.pop(0)
+            newChild = []
+            for child in root.child:
+                if len(child.child) != 0:
+                    newChild.append(child)
+                    queue.append(child)
+            root.child = newChild
+TnS = O(n) O(2max(root.child))
+
+
+
+
+def removeLeaves(root):
+    if root is None: return None
+    
+    for i in range(len(root.child) - 1, -1, -1):
+        child = root.child[i]
+        if len(child.child) == 0:
+            root.child.pop(i)
+    
+    for child in root.child:
+        removeLeaves(child)
+TnS = O(n) O(1)
 """
 
 

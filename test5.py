@@ -1003,6 +1003,7 @@ def levelOrder(root):
         print(root.data, end=" ")
         for child in root.child:
             queue.append(child)  
+TnS = O(n) o(max(root.child))
 
 
 
@@ -1131,6 +1132,75 @@ def flatTree(root):
         second_last_tail.child.append(last_child)
     return last_node
 TnS = O(n) O(1)
+
+
+
+
+def findElement(root, ele):
+    if root.data == ele:
+        return True
+
+    for child in root.child:
+        sub_ans = findElement(child, ele)
+        if sub_ans:
+            return True
+    return False
+TnS = O(n) O(1)
+
+
+
+
+def rootToNodePath(root, ele):
+    if root.data == ele:
+        return [root.data]
+
+    for child in root.child:
+        sub_ans = rootToNodePath(child, ele)
+        if len(sub_ans) > 0:
+            sub_ans.append(root.data)
+            return sub_ans
+    return []
+TnS = O(n) O(path)
+
+
+
+
+def lowestCommonAncestor(root, ele1, ele2):
+    path1 = rootToNodePath(root, ele1)
+    path2 = rootToNodePath(root, ele2)
+
+    i = len(path1) - 1
+    j = len(path2) - 1
+    while i >= 0 and j >= 0 and path1[i] == path2[j]:
+        i -= 1
+        j -= 1
+    
+    i += 1
+    j += 1
+
+    return path1[i]
+TnS = O(2n) + O(path) + O(path1) + O(path2)
+
+
+
+
+
+def distanceBetweenNodes(root, ele1, ele2):
+    path1 = rootToNodePath(root, ele1)
+    path2 = rootToNodePath(root, ele2)
+
+    i = len(path1) - 1
+    j = len(path2) - 1
+    while i >= 0 and j >= 0 and path1[i] == path2[j]:
+        i -= 1
+        j -= 1
+    
+    i += 1
+    j += 1
+
+    return i + j
+TnS = O(2n) + O(path) + O(path1) + O(path2)
+
 """
 
 

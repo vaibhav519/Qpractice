@@ -4,25 +4,32 @@ class Node:
         self.child = []
 
 
-def getTail(root):
-    while len(root.child) == 1:
-        root = root.child[0]
+def rootToNodePath(root, ele):
+    if root.data == ele:
+        return [root.data]
 
-    return root
+    for child in root.child:
+        sub_ans = rootToNodePath(child, ele)
+        if len(sub_ans) > 0:
+            sub_ans.append(root.data)
+            return sub_ans
+    return []
 
 
-def flatTree(root):
-    if len(root.child) == 0:
-        return root
+def distanceBetweenNodes(root, ele1, ele2):
+    path1 = rootToNodePath(root, ele1)
+    path2 = rootToNodePath(root, ele2)
 
-    last_node = flatTree(root.child[-1])
-    while len(root.child) > 1:
-        last_child = root.child.pop()
-        second_last = root.child[-1]
-        second_last_tail = flatTree(second_last)
-        second_last_tail.child.append(last_child)
-    return last_node
+    i = len(path1) - 1
+    j = len(path2) - 1
+    while i >= 0 and j >= 0 and path1[i] == path2[j]:
+        i -= 1
+        j -= 1
+    
+    i += 1
+    j += 1
 
+    return i + j
 
 def levelOrder(root):
     queue = [root]
@@ -49,8 +56,8 @@ def constructTree(arr):
             else:
                 root = t
             stack.append(t)
-    flatTree(root)
-    levelOrder(root)
+    print(distanceBetweenNodes(root, 70, 110))
+    #levelOrder(root)
 
 
 arr = [10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80,

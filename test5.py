@@ -1201,6 +1201,116 @@ def distanceBetweenNodes(root, ele1, ele2):
     return i + j
 TnS = O(2n) + O(path) + O(path1) + O(path2)
 
+
+
+
+def isSimilar(root1, root2):
+
+    if len(root1.child) != len(root2.child):
+        return False
+    for child1, child2 in zip(root1.child, root2.child):
+        if isSimilar(child1, child2) == False:
+            return False
+    return True
+arr1 = [10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80,
+        110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1]
+
+arr2 = [1, 2, 5, -1, 6, -1, -1, 3, 7, -1, 8,
+        11, -1, 12, -1, -1, 9, -1, -1, 4, 10, -1, -1]
+root1 = constructTree(arr1)
+root2 = constructTree(arr2)
+print(isSimilar(root1, root2))
+TnS = O(n) O(1)
+
+
+
+
+def isMirror(root1, root2):
+    queue = [(root1, root2)]
+    while len(queue) != 0:
+
+        for _ in range(len(queue)):
+            root1, root2 = queue.pop(0)
+            n1 = len(root1.child)
+            n2 = len(root2.child)
+            for i, j in zip(range(n1), range(n2 - 1, -1, -1)):
+                if root1.child[i] and root2.child[j]:
+                    queue.append((root1.child[i], root2.child[j]))
+                else:
+                    return False
+
+    return True
+TnS = O(n) o(max(root.child))
+
+
+
+
+def isMirror(root1, root2):
+    if len(root1.child) != len(root2.child):
+        return False
+    for i in range(len(root1.child)):
+        root1 = root1.child[i]
+        root2 = root2.child[len(root1.child) - 1 - i]
+        if isMirror(root1, root2) == False:
+            return False
+    return True
+TnS = O(n) O(1)
+
+
+
+
+def isSymmetry(root):
+    return isMirror(root, root)
+TnS = O(n) O(1)
+
+
+
+
+
+predecessor = None
+successor = None
+state = 0
+def printSuccessorPredecessor(root, ele):
+    global state
+    if state == 0:
+        if root.data == ele:
+            state = 1
+        else:
+            global predecessor
+            predecessor = root
+    elif state == 1:
+        global successor
+        successor = root
+        state = 2
+
+    for child in root.child:
+        printSuccessorPredecessor(child, ele)
+
+    return predecessor, successor
+TnS = O(n) O(1)
+
+
+
+
+nextSmallest = float('-inf')
+nextLargest = float('inf')
+state = 0
+def printCeilFloor(root, ele):
+    if root.data < ele:
+        global nextSmallest
+        nextSmallest = max(nextSmallest, root.data)
+        global state
+    elif root.data > ele and state == 0:
+        global nextLargest
+        nextLargest = root.data
+        state = 1
+
+    for child in root.child:
+        printCeilFloor(child, ele)
+
+    return nextSmallest, nextLargest
+TnS = O(n) O(1)
+
 """
 
 

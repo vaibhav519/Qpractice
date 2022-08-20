@@ -1,35 +1,30 @@
+from turtle import goto
+
+
 class Node:
     def __init__(self, data):
         self.data = data
         self.child = []
 
 
-def rootToNodePath(root, ele):
-    if root.data == ele:
-        return [root.data]
+nextSmallest = float('-inf')
+nextLargest = float('inf')
+state = 0
+def printCeilFloor(root, ele):
+    if root.data < ele:
+        global nextSmallest
+        nextSmallest = max(nextSmallest, root.data)
+        global state
+    elif root.data > ele and state == 0:
+        global nextLargest
+        nextLargest = root.data
+        state = 1
 
     for child in root.child:
-        sub_ans = rootToNodePath(child, ele)
-        if len(sub_ans) > 0:
-            sub_ans.append(root.data)
-            return sub_ans
-    return []
+        printCeilFloor(child, ele)
 
+    return nextSmallest, nextLargest
 
-def distanceBetweenNodes(root, ele1, ele2):
-    path1 = rootToNodePath(root, ele1)
-    path2 = rootToNodePath(root, ele2)
-
-    i = len(path1) - 1
-    j = len(path2) - 1
-    while i >= 0 and j >= 0 and path1[i] == path2[j]:
-        i -= 1
-        j -= 1
-    
-    i += 1
-    j += 1
-
-    return i + j
 
 def levelOrder(root):
     queue = [root]
@@ -54,12 +49,14 @@ def constructTree(arr):
             if len(stack) > 0:
                 stack[-1].child.append(t)
             else:
-                root = t
+                root = t           
             stack.append(t)
-    print(distanceBetweenNodes(root, 70, 110))
-    #levelOrder(root)
+    printCeilFloor(root, 12)
+
+arr = [10, 20, 50, -1, 60, -1, -1, 30, 70, 110, - 1, 120, -1, -1, 80,
+       -1, 90, -1, -1, 40, 100, -1, -1]
 
 
-arr = [10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80,
-       110, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1]
 constructTree(arr)
+print(nextSmallest)
+print(nextLargest)

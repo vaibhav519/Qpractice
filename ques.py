@@ -1,29 +1,27 @@
-from turtle import goto
-
-
 class Node:
     def __init__(self, data):
         self.data = data
         self.child = []
 
 
-nextSmallest = float('-inf')
-nextLargest = float('inf')
-state = 0
-def printCeilFloor(root, ele):
-    if root.data < ele:
-        global nextSmallest
-        nextSmallest = max(nextSmallest, root.data)
-        global state
-    elif root.data > ele and state == 0:
-        global nextLargest
-        nextLargest = root.data
-        state = 1
+diameter = 0
+def findDiameter(root):
+    global diameter
+    max_depth = -1
+    second_max_depth = -1
 
     for child in root.child:
-        printCeilFloor(child, ele)
-
-    return nextSmallest, nextLargest
+        child_max = findDiameter(child)
+        if child_max > max_depth:
+            second_max_depth = max_depth
+            max_depth = child_max
+        elif child_max > second_max_depth:
+            second_max_depth = child_max
+    
+    if max_depth + second_max_depth + 2 > diameter:
+        diameter = max_depth + second_max_depth + 2
+    
+    return max_depth + 1
 
 
 def levelOrder(root):
@@ -49,14 +47,13 @@ def constructTree(arr):
             if len(stack) > 0:
                 stack[-1].child.append(t)
             else:
-                root = t           
+                root = t
             stack.append(t)
-    printCeilFloor(root, 12)
+    findDiameter(root)
+    print(diameter)
 
-arr = [10, 20, 50, -1, 60, -1, -1, 30, 70, 110, - 1, 120, -1, -1, 80,
-       -1, 90, -1, -1, 40, 100, -1, -1]
 
+arr = [10, 20, 50, -1, 60, 65, -1, -1, -1, 30, 70, -1, 80,
+       110, 115, -1, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1]
 
 constructTree(arr)
-print(nextSmallest)
-print(nextLargest)

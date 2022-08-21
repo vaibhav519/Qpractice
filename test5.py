@@ -888,9 +888,9 @@ tnS = O(km) O(km)
 
 
 
-
-
 Generic Tree
+
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -940,11 +940,6 @@ TnS = o(n) o(1)
 
 
 
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.child = []
-
 
 def findMaxHeight(root):
     h = -1
@@ -957,21 +952,6 @@ def findMaxHeight(root):
 
 TnS = O(n) O(1)
  
-def constructTree(arr):
-    root = None
-    stack = []
-    for i in range(len(arr)):
-        if arr[i] == -1:
-            stack.pop()
-        else:
-            t = Node(arr[i])
-            if len(stack) > 0:
-                stack[-1].child.append(t)
-            else:
-                root = t
-            stack.append(t)
-
-    print(findMaxHeight(root))
 
 
 arr = [10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80,
@@ -1309,6 +1289,80 @@ def printCeilFloor(root, ele):
         printCeilFloor(child, ele)
 
     return nextSmallest, nextLargest
+TnS = O(n) O(1)
+
+
+
+
+
+def findMax(root):
+    m = []
+    for child in root.child:
+        sub_max = findMax(child)
+        m.append(sub_max)
+    if m:
+        Max = 0
+        max_node = None
+        for node in m:
+            if node.data > Max:
+                Max = node.data
+                max_node = node
+        return root if root.data > max_node.data else max_node
+    else:
+        return root
+TnS = O(n) O(max(root.child))
+    
+
+
+def KthLargest(root, k):
+    
+    for _ in range(k - 1):
+        max_node = findMax(root)
+        max_node.data = 1
+    
+    kth_largest_node = findMax(root)
+    return kth_largest_node.data
+TnS = 3(O(n) O(max(root.child)))
+
+
+
+
+max_node = None
+Max = 0
+def maxTree(root):
+    s = 0
+    global Max, max_node
+    for child in root.child:
+        s += maxTree(child)
+        if s > Max:
+            Max = s + root.data
+            max_node = root
+            
+    
+    return root.data + s
+TnS = O(n) O(1)
+
+
+
+
+diameter = 0
+def findDiameter(root):
+    global diameter
+    max_depth = -1
+    second_max_depth = -1
+
+    for child in root.child:
+        child_max = findDiameter(child)
+        if child_max > max_depth:
+            second_max_depth = max_depth
+            max_depth = child_max
+        elif child_max > second_max_depth:
+            second_max_depth = child_max
+    
+    if max_depth + second_max_depth + 2 > diameter:
+        diameter = max_depth + second_max_depth + 2
+    
+    return max_depth + 1
 TnS = O(n) O(1)
 
 """

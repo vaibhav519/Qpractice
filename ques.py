@@ -1,59 +1,54 @@
 class Node:
     def __init__(self, data):
         self.data = data
-        self.child = []
-
-
-diameter = 0
-def findDiameter(root):
-    global diameter
-    max_depth = -1
-    second_max_depth = -1
-
-    for child in root.child:
-        child_max = findDiameter(child)
-        if child_max > max_depth:
-            second_max_depth = max_depth
-            max_depth = child_max
-        elif child_max > second_max_depth:
-            second_max_depth = child_max
+        self.left = None
+        self.right = None
     
-    if max_depth + second_max_depth + 2 > diameter:
-        diameter = max_depth + second_max_depth + 2
+
+def displayTree(root):
+
+    if root:
+        print((str(root.left.data) if root.left else 'None') + \
+        ' --> ' + str(root.data) + ' <-- ' + \
+        (str(root.right.data) if root.right else 'None'))
+        displayTree(root.left)
+        displayTree(root.right)
+
     
-    return max_depth + 1
-
-
-def levelOrder(root):
-    queue = [root]
-    while len(queue) != 0:
-
-        for _ in range(len(queue)):
-            root = queue.pop(0)
-            print(root.data, end=" ")
-            for child in root.child:
-                queue.append(child)
-        print()
 
 
 def constructTree(arr):
-    root = None
-    stack = []
-    for i in range(len(arr)):
-        if arr[i] == -1:
+    root = Node(arr[0])
+    stack = [[root, 1]]
+
+    i = 0
+    while len(stack) != 0:
+        root, state = stack[-1]
+        
+        if state == 1:
+            i += 1
+            stack[-1][1] += 1
+            if arr[i] != None:
+                node = Node(arr[i])
+                root.left = node
+                stack.append([node, 1])
+        
+        elif state == 2:
+            i += 1
+            stack[-1][1] += 1
+            if arr[i] != None:
+                node = Node(arr[i])
+                root.right = node
+                stack.append([node, 1])
+
+        elif state == 3:
             stack.pop()
-        else:
-            t = Node(arr[i])
-            if len(stack) > 0:
-                stack[-1].child.append(t)
-            else:
-                root = t
-            stack.append(t)
-    findDiameter(root)
-    print(diameter)
+
+    displayTree(root)
 
 
-arr = [10, 20, 50, -1, 60, 65, -1, -1, -1, 30, 70, -1, 80,
-       110, 115, -1, -1, 120, -1, -1, 90, -1, -1, 40, 100, -1, -1]
+arr = [50, 25, 12, None, None, 37, 30, None, None, None, 75, 62,
+        None, 70, None, None, 87, None, None]
 
 constructTree(arr)
+

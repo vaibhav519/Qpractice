@@ -1419,6 +1419,133 @@ def displayTree(root):
         displayTree(root.right)
 
 TnS = O(n) O(1)
+
+
+
+
+
+def findSize(root):
+    size = 0
+
+    if root:
+        if root.left:
+            size += findSize(root.left)
+        if root.right:
+            size += findSize(root.right)
+    
+    return size + 1
+TnS = O(n) O(1)
+
+
+
+
+def findSum(root):
+    s = 0
+
+    if root:
+        if root.left:
+            s += findSum(root.left)
+        if root.right:
+            s += findSum(root.right)
+    
+    return s + root.data
+TnS = O(n) O(1)
+
+
+
+
+def findSum(root):
+    l, r = 0, 0
+
+    if root:
+        if root.left:
+            l = findSum(root.left)
+        if root.right:
+            r = findSum(root.right)
+    
+    return max(root.data, l, r)
+TnS = O(n) O(1)
+
+
+
+
+def findHeight(root):
+    l_height, r_height = 0, 0
+
+    if root:
+        if root.left:
+            l_height = findHeight(root.left)
+        if root.right:
+            l_height = findHeight(root.right)
+    
+    return max(l_height, r_height) + 1
+TnS = O(n) O(1)
+
+
+
+
+
+def findHeight(root):
+    if not root: return - 1
+
+    l_height = findHeight(root.left)
+    r_height = findHeight(root.right)
+    total_height = max(l_height, r_height) + 1
+
+    return total_height
+TnS = O(n) O(1)
+
+
+
+def preOrder(root):
+    if root:
+        print(root.data)
+        preOrder(root.left)
+        preOrder(root.right)
+TnS = O(n) O(1)
+
+
+
+
+
+def inOrder(root):
+    if root:
+        inOrder(root.left)
+        print(root.data)
+        inOrder(root.right)
+TnS = O(n) O(1)
+
+
+
+
+def postOrder(root):
+    if root:
+        postOrder(root.left)
+        postOrder(root.right)
+        print(root.data)
+TnS = O(n) O(1)
+
+
+
+
+def levelOrder(root):
+    if not root: return None
+    queue = [root]
+    res = [[root.data]]
+    while queue:
+        level = []
+        for _ in range(len(queue)):
+            root = queue.pop(0)
+            if root.left:
+                queue.append(root.left)
+                level.append(root.left.data)
+            if root.right:
+                queue.append(root.right)
+                level.append(root.right.data)
+        if level:
+            res.append(level)
+    return res
+TnS = O(n) O2(max children in a level)
 """
 
 

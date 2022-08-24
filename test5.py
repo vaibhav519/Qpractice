@@ -1546,6 +1546,133 @@ def levelOrder(root):
             res.append(level)
     return res
 TnS = O(n) O2(max children in a level)
+
+
+
+
+def iterativeTraversals(root):
+    if not root: return None
+
+    stack = [[root, 1]]
+    preOrder = ""
+    inOrder = ""
+    postOrder = ""
+
+    while stack:
+        root, state = stack[-1]
+
+        if state == 1:
+            preOrder += str(root.data) + " "
+            stack[-1][1] += 1
+            if root.left:
+                stack.append([root.left, 1])
+
+        elif state == 2:
+            inOrder += str(root.data) + " "
+            stack[-1][1] += 1
+            if root.right:
+                stack.append([root.right, 1])
+        else:
+            postOrder += str(root.data) + " "
+            stack.pop()
+    print(preOrder)
+    print(inOrder)
+    print(postOrder)
+TnS = O(n) O(3n)
+
+
+
+
+
+def nodeToRootPath(root, ele):
+    if not root: return []
+
+    if root.data == ele:
+        return [root.data]
+
+    left_path = nodeToRootPath(root.left, ele)
+    right_path = nodeToRootPath(root.right, ele)
+
+    if len(left_path) > 0:
+        left_path.append(root.data)
+        return left_path
+    if len(right_path) > 0:
+        right_path.append(root.data)
+        return right_path
+
+    return []
+TnS = O(n) O(nodetorootpath)
+
+
+
+
+
+def printkLevelsDown(root, k):
+    if not root or k < 0: return
+    
+    if k == 0:
+        print(root.data)
+
+    printkLevelsDown(root.left, k - 1)
+    printkLevelsDown(root.right, k - 1)
+TnS = O(n) O(1)
+
+
+
+
+
+def nodeToRootPath(root, ele):
+    if not root: return []
+
+    if root.data == ele:
+        return [root]
+
+    left_path = nodeToRootPath(root.left, ele)
+    right_path = nodeToRootPath(root.right, ele)
+
+    if len(left_path) > 0:
+        left_path.append(root)
+        return left_path
+    if len(right_path) > 0:
+        right_path.append(root)
+        return right_path
+
+    return []
+
+
+def printkLevelsDown(root, k, blocker):
+    if not root or k < 0 or root == blocker: return
+    
+    if k == 0:
+        print(root.data)
+
+    printkLevelsDown(root.left, k - 1, blocker)
+    printkLevelsDown(root.right, k - 1, blocker)
+
+
+
+def kLevelFar(root, ele, k):
+    path = nodeToRootPath(root, ele)
+    for i in range(len(path)):
+        printkLevelsDown(path[i], k - i, path[i - 1] if i > 0 else None)
+TnS  = O(n) + O(len(path) * (n))  O(path)
+
+
+
+
+
+def printRootToLeavePaths(root, res, s, l, h):
+    if not root: return
+
+    if root.left == None and root.right == None:
+        s += root.data
+        if l <= s <= h:
+            print(res + str(root.data))
+        return
+    
+    printAllRootToLeavePaths(root.left, res + str(root.data) + ' ', s + root.data, l, h)
+    printAllRootToLeavePaths(root.right, res + str(root.data) + ' ', s + root.data, l, h)
+TnS = O(n) O(n)
 """
 
 

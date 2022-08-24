@@ -5,18 +5,19 @@ class Node:
         self.right = None
 
 
-def iterativePreOrder(root):
-    if not root: return None
-    stack = [root]
-    while stack:
-        root = stack.pop()
-        print(root.data)
-        if root.right:
-            stack.append(root.right)
-        if root.left:
-            stack.append(root.left)
-    
 
+def printAllRootToLeavePaths(root, res, s, l, h):
+    if not root: return
+
+    if root.left == None and root.right == None:
+        s += root.data
+        if l <= s <= h:
+            print(res + str(root.data))
+        return
+    
+    printAllRootToLeavePaths(root.left, res + str(root.data) + ' ', s + root.data, l, h)
+    printAllRootToLeavePaths(root.right, res + str(root.data) + ' ', s + root.data, l, h)
+    
 
 
 def constructTree(arr):
@@ -45,7 +46,7 @@ def constructTree(arr):
 
         elif state == 3:
             stack.pop()
-    iterativePreOrder(root)
+    printAllRootToLeavePaths(root, " ", 0, 90, 300)
 
 
 arr = [50, 25, 12, None, None, 37, 30, None, None, None, 75, 62,

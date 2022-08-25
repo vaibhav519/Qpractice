@@ -1673,6 +1673,86 @@ def printRootToLeavePaths(root, res, s, l, h):
     printAllRootToLeavePaths(root.left, res + str(root.data) + ' ', s + root.data, l, h)
     printAllRootToLeavePaths(root.right, res + str(root.data) + ' ', s + root.data, l, h)
 TnS = O(n) O(n)
+
+
+
+
+
+def cloneLeft(root):
+    if not root: return
+
+    res_left = cloneLeft(root.left)
+    res_right = cloneLeft(root.right)
+
+    copy_node = Node(root.data)
+    copy_node.left = res_left
+    root.left = copy_node
+    root.right = res_right
+
+    return root
+TnS = O(n) O(1)
+
+
+
+
+def correctCloneLeft(root):
+    if not root: return
+
+    res_left = correctCloneLeft(root.left)
+    res_right = correctCloneLeft(root.right)
+
+    root.left = res_left
+    root.right = res_right
+
+    return root
+TnS = O(n) O(1)    
+
+
+
+
+def printSingleChild(root):
+    if not root: return
+
+    if root.left == None and root.right != None:
+        print(root.data)
+
+    if root.left != None and root.right == None:
+        print(root.data)
+
+    printSingleChild(root.left)
+    printSingleChild(root.right)
+TnS = O(n) O(1)    
+
+
+
+def removeLeaves(root):
+    if not root: return
+
+    if root.left:
+        if root.left.left == None and root.left.right == None:
+            root.left = None
+
+    if root.right:
+        if root.right.left == None and root.right.right == None:
+            root.right = None
+
+    removeLeaves(root.left)
+    removeLeaves(root.right)
+
+
+
+def removeLeaves(root):
+    if not root: return
+
+    if not root.left and not root.right:
+        return None
+
+    root.left = removeLeaves(root.left)
+    root.right = removeLeaves(root.right)
+
+    return root
+TnS = O(n) O(1)    
+
 """
 
 

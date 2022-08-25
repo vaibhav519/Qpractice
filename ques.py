@@ -5,20 +5,36 @@ class Node:
         self.right = None
 
 
+def preOrder(root):
+    if root:
+        print(root.data)
+        preOrder(root.left)
+        preOrder(root.right)
 
-def printAllRootToLeavePaths(root, res, s, l, h):
-    if not root: return
 
-    if root.left == None and root.right == None:
-        s += root.data
-        if l <= s <= h:
-            print(res + str(root.data))
-        return
+diameter = 0
+def findDiameter(root):
+    if not root: return -1
+
+    global diameter
+    max_depth = -1
+    second_max_depth = -1
+
+    max_left = findDiameter(root.left)
+    max_right = findDiameter(root.right)
+
+    child_max = max(max_left, max_right)
     
-    printAllRootToLeavePaths(root.left, res + str(root.data) + ' ', s + root.data, l, h)
-    printAllRootToLeavePaths(root.right, res + str(root.data) + ' ', s + root.data, l, h)
+    if child_max > max_depth:
+        second_max_depth = max_depth
+        max_depth = child_max
+    elif child_max > second_max_depth:
+        second_max_depth = child_max
     
-
+    if max_depth + second_max_depth + 2 > diameter:
+        diameter = max_depth + second_max_depth + 2
+    
+    return max_depth + 1
 
 def constructTree(arr):
     root = Node(arr[0])
@@ -46,7 +62,8 @@ def constructTree(arr):
 
         elif state == 3:
             stack.pop()
-    printAllRootToLeavePaths(root, " ", 0, 90, 300)
+    print(findDiameter(root))
+    
 
 
 arr = [50, 25, 12, None, None, 37, 30, None, None, None, 75, 62,

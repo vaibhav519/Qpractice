@@ -1751,8 +1751,23 @@ def removeLeaves(root):
     root.right = removeLeaves(root.right)
 
     return root
-TnS = O(n) O(1)    
+TnS = O(n) O(1)   
 
+
+
+
+tilt_sum = 0
+def tiltSum(root):
+    global tilt_sum
+    if not root: return 0
+
+    left_res = tiltSum(root.left)
+    right_res = tiltSum(root.right)
+
+    tilt_sum += abs(left_res - right_res)
+
+    return left_res + right_res + root.data
+TnS = O(n) O(1)   
 """
 
 

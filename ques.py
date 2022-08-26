@@ -11,30 +11,18 @@ def preOrder(root):
         preOrder(root.left)
         preOrder(root.right)
 
+tilt_sum = 0
+def tiltSum(root):
+    global tilt_sum
+    if not root: return 0
 
-diameter = 0
-def findDiameter(root):
-    if not root: return -1
+    left_res = tiltSum(root.left)
+    right_res = tiltSum(root.right)
 
-    global diameter
-    max_depth = -1
-    second_max_depth = -1
+    tilt_sum += abs(left_res - right_res)
 
-    max_left = findDiameter(root.left)
-    max_right = findDiameter(root.right)
+    return left_res + right_res + root.data
 
-    child_max = max(max_left, max_right)
-    
-    if child_max > max_depth:
-        second_max_depth = max_depth
-        max_depth = child_max
-    elif child_max > second_max_depth:
-        second_max_depth = child_max
-    
-    if max_depth + second_max_depth + 2 > diameter:
-        diameter = max_depth + second_max_depth + 2
-    
-    return max_depth + 1
 
 def constructTree(arr):
     root = Node(arr[0])
@@ -62,7 +50,7 @@ def constructTree(arr):
 
         elif state == 3:
             stack.pop()
-    print(findDiameter(root))
+    tiltSum(root)
     
 
 
@@ -70,3 +58,4 @@ arr = [50, 25, 12, None, None, 37, 30, None, None, None, 75, 62,
        None, 70, None, None, 87, None, None]
 
 constructTree(arr)
+print(tilt_sum)

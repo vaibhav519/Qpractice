@@ -1,3 +1,6 @@
+from functools import lru_cache
+
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -11,17 +14,21 @@ def preOrder(root):
         preOrder(root.left)
         preOrder(root.right)
 
-tilt_sum = 0
-def tiltSum(root):
-    global tilt_sum
+
+isBBT = True
+
+
+def balancedBT(root):
+    global isBBT
     if not root: return 0
 
-    left_res = tiltSum(root.left)
-    right_res = tiltSum(root.right)
+    left_res = balancedBT(root.left)
+    right_res = balancedBT(root.right)
 
-    tilt_sum += abs(left_res - right_res)
+    final_res = abs(left_res - right_res)
+    isBBT = True if final_res <= 1 else False
 
-    return left_res + right_res + root.data
+    return max(left_res, right_res) + 1
 
 
 def constructTree(arr):
@@ -50,12 +57,10 @@ def constructTree(arr):
 
         elif state == 3:
             stack.pop()
-    tiltSum(root)
-    
+    balancedBT(root)
 
 
-arr = [50, 25, 12, None, None, 37, 30, None, None, None, 75, 62,
-       None, 70, None, None, 87, None, None]
+arr = [3, 9, None, None, 20, 18, None, None, 7, None, None]
 
 constructTree(arr)
-print(tilt_sum)
+print(isBBT)

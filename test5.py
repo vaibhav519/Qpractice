@@ -1768,6 +1768,27 @@ def tiltSum(root):
 
     return left_res + right_res + root.data
 TnS = O(n) O(1)   
+
+
+
+
+
+import sys
+def isValidBST(root):
+
+    return validate(root, -sys.maxsize, sys.maxsize)
+
+def validate(root, minsize, maxsize):
+
+    if root is None:return True
+
+    if root.data < maxsize and root.data > minsize:
+
+        return validate(root.left, minsize, root.data) and validate(root.right, root.data, maxsize)
+
+    else:return False
+TnS = O(n) O(1)   
+
 """
 
 

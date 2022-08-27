@@ -101,5 +101,3 @@
 # print(leftCount)
 
 
-dp = [[0, 1, 2, 3, 4], [1, 2, 3, 5, 4, ]]
-print(list(map(lambda x: print(x), dp[0][0:4])))

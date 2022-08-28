@@ -1,4 +1,4 @@
-from functools import lru_cache
+import sys
 
 
 class Node:
@@ -8,27 +8,16 @@ class Node:
         self.right = None
 
 
-def preOrder(root):
-    if root:
-        print(root.data)
-        preOrder(root.left)
-        preOrder(root.right)
-
-
-isBBT = True
-
-
-def balancedBT(root):
-    global isBBT
-    if not root: return 0
-
-    left_res = balancedBT(root.left)
-    right_res = balancedBT(root.right)
-
-    final_res = abs(left_res - right_res)
-    isBBT = True if final_res <= 1 else False
-
-    return max(left_res, right_res) + 1
+def buildTree(self, preorder, inorder):
+    if not preorder or not inorder: return None
+    
+    root = Node(preorder[0])
+    mid = inorder.index(preorder[0])
+    
+    root.left = self.buildTree(preorder[1 : mid + 1], inorder[:mid])
+    root.right = self.buildTree(preorder[mid + 1: ], inorder[mid + 1:])
+    
+    return root
 
 
 def constructTree(arr):
@@ -57,10 +46,9 @@ def constructTree(arr):
 
         elif state == 3:
             stack.pop()
-    balancedBT(root)
+    largestBST(root)
 
 
-arr = [3, 9, None, None, 20, 18, None, None, 7, None, None]
-
+arr = [50, 25, 12, None, None, 37, 30, None, None, None, 75, 62,
+       None, 70, None, None, 87, None, None]
 constructTree(arr)
-print(isBBT)

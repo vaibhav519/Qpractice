@@ -1789,6 +1789,85 @@ def validate(root, minsize, maxsize):
     else:return False
 TnS = O(n) O(1)   
 
+
+
+
+
+isBBT = True
+
+
+def balancedBT(root):
+    global isBBT
+    if not root: return 0
+
+    left_res = balancedBT(root.left)
+    right_res = balancedBT(root.right)
+
+    final_res = abs(left_res - right_res)
+    if isBBT:
+        isBBT = True if final_res <= 1 else False
+
+    return max(left_res, right_res) + 1
+TnS = O(n) O(1)   
+
+
+
+
+
+def largestBST(root): (n)
+    global isBBT
+    if not root:
+        return None
+    stack = [root]
+    m = 0
+    node_data = 0
+    while stack: 
+        root = stack.pop()
+        if isValidBST(root): (n)
+            size = findSize(root) (n)
+            if size > m:
+                m = max(m, size)
+                node_data = root.data
+                continue
+        if root.right:
+            stack.append(root.right)
+        if root.left:
+            stack.append(root.left)
+    print(node_data, m)
+TnS = O(3n) O(n)
+
+
+
+
+
+def buildTree(self, preorder, inorder):
+    if not preorder or not inorder: return None
+    
+    root = Node(preorder[0])
+    mid = inorder.index(preorder[0])
+    
+    root.left = self.buildTree(preorder[1 : mid + 1], inorder[:mid])
+    root.right = self.buildTree(preorder[mid + 1: ], inorder[mid + 1:])
+    
+    return root
+TnS = O(n^2) O( n)
+
+
+
+
+
+def buildTree(self, inorder, postorder):
+    map_inorder = {}
+    for i, val in enumerate(inorder): map_inorder[val] = i
+    def recur(low, high):
+        if low > high: return None
+        x = TreeNode(postorder.pop())
+        mid = map_inorder[x.val]
+        x.right = recur(mid+1, high)
+        x.left = recur(low, mid-1)
+        return x
+    return recur(0, len(inorder)-1)
+TnS = O(n) O(n)
 """
 
 

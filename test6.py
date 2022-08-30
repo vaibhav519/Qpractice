@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+"""from bs4 import BeautifulSoup
 import requests, openpyxl
 
 excel = openpyxl.Workbook()
@@ -34,4 +34,4 @@ try:
 except Exception as e:
     print(e)
 
-excel.save('IMDB Movie Ratings.xlsx')
+excel.save('IMDB Movie Ratings.xlsx')"""

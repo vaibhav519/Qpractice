@@ -1868,6 +1868,49 @@ def buildTree(self, inorder, postorder):
         return x
     return recur(0, len(inorder)-1)
 TnS = O(n) O(n)
+
+
+
+
+
+def constructTreeFromInorder(inorder):
+    if not inorder:
+        return None
+
+    mid = len(inorder) // 2
+    root = Node(inorder[mid])
+
+    root.left = constructTreeFromInorder(inorder[: mid])
+    root.right = constructTreeFromInorder(inorder[mid + 1:])
+
+    return root
+TnS = O(n) O(1)
+
+
+
+
+class Solution:
+    def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
+        if not preorder: return None
+        
+        root = TreeNode(preorder[0])
+        stack = [root]
+        
+        for i in range(1, len(preorder)):
+            
+            if preorder[i] < stack[-1].val:
+                node = TreeNode(preorder[i])
+                stack[-1].left = node
+                stack.append(node)
+            else:
+                node = TreeNode(preorder[i])
+                while stack and preorder[i] > stack[-1].val:
+                    last = stack.pop()
+                last.right = node
+                stack.append(node)
+        
+        return root
+TnS = O(N^2) O(N)
 """
 
 

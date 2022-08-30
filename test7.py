@@ -1,4 +1,4 @@
-# importing library
+"""# importing library
 import requests, openpyxl
 from bs4 import BeautifulSoup
  
@@ -41,3 +41,4 @@ print("Temperature is", temp)
 print("Time: ", time)
 print("Sky Description: ", sky)
 print(other_data)
+"""

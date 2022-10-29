@@ -1,13 +1,13 @@
-"""# importing library
-import requests, openpyxl
+# importing libr
 from bs4 import BeautifulSoup
- 
- 
-excel = openpyxl.Workbook()
-sheet = excel.active
-sheet.title = "Today's weather"
-print(excel.sheetnames)
-sheet.append(['City', 'Temperature', 'Time', 'Sky', 'Other'])
+import requests, openpyxl
+import pandas as pd
+from openpyxl import Workbook
+
+columns = [0, 1, 2, 3, 4]
+wb= Workbook()
+ws=wb.active
+
 # enter city name
 city = "bhopal"
  
@@ -34,11 +34,17 @@ pos = strd.find('Wind')
 other_data = strd[pos:]
  
 # printing all data
-sheet.append([city, temp, time, sky, other_data])
-excel.save('Todays_weather.xlsx')
+data = {(1: city), (2: temp), (3: time), (4: sky), (5: other_data}
+ws.append(data)
+df = pd.DataFrame(data, columns=['columns'])
+
+
+with pd.ExcelWriter('Todays_weather.xlsx', mode='a', if_sheet_exists='replace', engine='openpyxl') as writer:
+    df.to_excel(writer, sheet_name=['sheet1'])
+    writer.save()
+
 print("location is", city)
 print("Temperature is", temp)
 print("Time: ", time)
 print("Sky Description: ", sky)
 print(other_data)
-"""

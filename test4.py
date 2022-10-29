@@ -100,4 +100,8 @@
 # iterativePreorder(root)
 # print(leftCount)
 
+s1 = 'bank'
+s2 = 'kanb'
 
+s1[0] += 'b'
+print(s1)

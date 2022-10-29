@@ -1,11 +1,15 @@
-"""from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 import requests, openpyxl
+import pandas as pd
+from openpyxl import load_workbook
 
-excel = openpyxl.Workbook()
-print(excel.sheetnames)
+FilePath = ""
+ExcelWorkbook = load_workbook(FilePath)
+excel = pd.ExcelWriter(FilePath, engine = 'openpyxl')
+
 sheet = excel.active
 sheet.title = 'Top Rated Movies'
-print(excel.sheetnames)
+
 sheet.append(['Movie Rank', 'Movie Name', 'Year of Release', 'IMDB Ratings'])
 
  
@@ -34,4 +38,4 @@ try:
 except Exception as e:
     print(e)
 
-excel.save('IMDB Movie Ratings.xlsx')"""
+excel.save('IMDB Movie Ratings.xlsx')

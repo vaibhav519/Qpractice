@@ -282,73 +282,91 @@ for p in range(c - 2, -1, -1):
             dp[q][p] = max(dp[q - 1][p + 1], dp[q][p + 1]) + grid[q][p]
 
 print(dp)
+
+
+
+
+geeks for geeks important questions
+
+
+
+def FindLeaders(arr):
+    
+    res = [arr[-1]] 
+    m = arr[-1]
+
+    for i in range(len(arr) - 2, 0, -1):
+        if arr[i] > m:
+            res.append(arr[i])
+            m = arr[i]
+
+    return res
+
+print(FindLeaders([16, 17, 4, 3, 5, 2]))
+
+
+
+def mergeSort(arr):
+    if len(arr) > 1:
+
+        mid = len(arr) // 2
+
+        l = arr[:mid]
+        r = arr[mid:]
+
+        mergeSort(l)
+        mergeSort(r)
+
+        i = j = k = 0
+
+        while i < len(l) and j < len(r):
+            if l[i] < r[j]:
+                arr[k] = l[i]
+                i += 1
+            else:
+                arr[k] = r[j]
+                j += 1
+
+            k += 1
+
+        while i < len(l):
+            arr[k] = l[i]
+            i += 1
+            k += 1
+
+        while j < len(r):
+            arr[k] = r[j]
+            j += 1
+            k += 1
+
+    return arr
+
+    
+
+
+def reverse(arr, n, k):
+    i = 0
+
+    while (i < n):
+
+        left = i
+
+        # To handle case when k is not
+        # multiple of n
+        right = min(i + k - 1, n - 1)
+
+        # Reverse the sub-array [left, right]
+        while (left < right):
+
+            arr[left], arr[right] = arr[right], arr[left]
+            left += 1
+            right -= 1
+        i += k
+    
+    return arr
+
+
+print(reverse([1, 2, 3, 4, 5], 5, 3))
+
+
 """
-
-# Python3 code to print subtree of all nodes
-
-# arrays for keeping position at
-# each dfs traversal for each node
-start = [None] * 100001
-end = [None] * 100001
-
-# Storing dfs order
-dfs_order = []
-adj = [[] for i in range(100001)]
-visited = [False] * 100001
-
-# Recursive function for dfs traversal dfsUtil()
-def dfs(a, b):
-
-	# keep track of node visited
-	visited[a] = 1
-	b += 1
-	start[a] = b
-	dfs_order.append(a)
-
-	for it in adj[a]:
-		if not visited[it]:
-			b = dfs(it, b)
-
-	end[a] = b
-	return b
-
-# Function to print the subtree nodes
-def Print(n):
-
-	for i in range(0, n):
-
-		# If node is leaf node
-		# start[i] is equals to endd[i]
-		if start[i] != end[i]:
-
-			print("subtree of node", i, "is", end = " ")
-			for j in range(start[i]+1, end[i]+1):
-
-				print(dfs_order[j-1], end = " ")
-
-			print()
-
-# Driver code
-if __name__ == "__main__":
-
-	# No of nodes n = 10
-	n, c = 10, 0
-
-	adj[0].append(1)
-	adj[0].append(2)
-	adj[0].append(3)
-	adj[1].append(4)
-	adj[1].append(5)
-	adj[4].append(7)
-	adj[4].append(8)
-	adj[2].append(6)
-	adj[6].append(9)
-
-	# Calling dfs for node 0
-	# Considering root node at 0
-	dfs(0, c)
-
-	# Print child nodes
-	Print(n)
-
-# This code is contributed by Rituraj Jain
